@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
-
 import 'package:netflix/data/models/movie.dart';
 import 'package:netflix/features/home/widgets/movie_card.dart';
 import 'package:shimmer/shimmer.dart';
-
 
 class MovieCarousel extends ConsumerStatefulWidget {
   final String title;
@@ -55,7 +53,7 @@ class _MovieCarouselState extends ConsumerState<MovieCarousel> {
 
           // Cards
           SizedBox(
-            height: 300,
+            height: 320,
             child: moviesAsync.when(
               loading: () => Shimmer.fromColors(
                 baseColor: Colors.grey[800]!,
@@ -64,7 +62,7 @@ class _MovieCarouselState extends ConsumerState<MovieCarousel> {
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   itemCount: 6,
-                  itemBuilder: (_, _) => Container(
+                  itemBuilder: (_, index) => Container( 
                     width: 200,
                     margin: const EdgeInsets.only(right: 12),
                     decoration: BoxDecoration(
@@ -80,16 +78,19 @@ class _MovieCarouselState extends ConsumerState<MovieCarousel> {
                   style: const TextStyle(color: Colors.red),
                 ),
               ),
-              data: (movies) => Scrollbar(
+              data: (movies) => RawScrollbar(
                 controller: _scrollController,
                 thumbVisibility: true,
+                thickness: 6,
+                radius: const Radius.circular(3),
+                thumbColor: Colors.grey[600],
                 child: ListView.builder(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.only(
                     left: 24,
                     right: 24,
-                    bottom: 16,
+                    bottom: 20, 
                   ),
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
